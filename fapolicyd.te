@@ -9,11 +9,17 @@ type fapolicyd_t;
 type fapolicyd_exec_t; 
 init_daemon_domain(fapolicyd_t, fapolicyd_exec_t)
 
+type fapolicyd_etc_t;
+files_type(fapolicyd_etc_t)
+
 type fapolicyd_var_lib_t;
 files_type(fapolicyd_var_lib_t)
 
 type fapolicyd_log_t;
 logging_log_file(fapolicyd_log_t)
+
+type fapolicyd_unit_file_t;
+systemd_unit_file(fapolicyd_unit_file_t)
 
 type fapolicyd_var_run_t;
 files_pid_file(fapolicyd_var_run_t)
@@ -30,6 +36,9 @@ allow fapolicyd_t self:unix_dgram_socket create_socket_perms;
 
 manage_files_pattern(fapolicyd_t, fapolicyd_log_t, fapolicyd_log_t)
 logging_log_filetrans(fapolicyd_t, fapolicyd_log_t, file)
+
+mmap_read_files_pattern(fapolicyd_t, fapolicyd_etc_t, fapolicyd_etc_t)
+files_etc_filetrans(fapolicyd_t, fapolicyd_etc_t, file)
 
 manage_dirs_pattern(fapolicyd_t, fapolicyd_var_lib_t, fapolicyd_var_lib_t)
 manage_files_pattern(fapolicyd_t, fapolicyd_var_lib_t, fapolicyd_var_lib_t)
